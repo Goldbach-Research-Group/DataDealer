@@ -56,11 +56,15 @@ def getFilesName(link):
                 nameList.append(temp[0])
     return nameList
 
-
 def writeJSONList(jsonList, targetLink, targetFilename, encoding):
-    # 将author信息写入文件
-    src = targetLink + "\\" + targetFilename + ".json"
-    # print(src)
+    src = targetLink + "/" + targetFilename + ".json"
+    writeFile(src, json.dumps(jsonList), encoding)
+
+def writeCsv(content, targetLink, targetFilename, encoding):
+    src = targetLink + "/" + targetFilename + ".csv"
+    writeFile(src, content, encoding)
+
+def writeFile(src, content, encoding):
     file = open(src, "w", encoding=encoding)
-    file.write(json.dumps(jsonList))
+    file.write(content)
     file.close()

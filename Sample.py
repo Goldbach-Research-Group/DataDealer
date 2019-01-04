@@ -1,10 +1,10 @@
 import Tools as tools
 import random
+import re
 
 
 def deal(JSON,per):
     res = []
-
     length = len(JSON)
     # 均分四份
     perLen = int(length/4)
@@ -17,6 +17,15 @@ def deal(JSON,per):
             res.append(JSON[i + num])
         i += perLen
     return res
+
+
+def toCsv(res):
+    dr = re.compile(r'<[^>]+>', re.S)  # 提取答案内容用的正则
+    result=''
+    for i in res:
+        content = dr.sub('', i['content'])
+        result += i['author']['url_token'] + ' , ' + content + '\n'
+    return result
 
 def main():
     
@@ -52,12 +61,15 @@ def main():
         "306537777_20190101_003",
         "307595822_20190102_001",
     ]
+
     for filename in files:
         print("正在处理：" + filename)
         JSON = tools.readFile_JSON(link,filename,encoding)
         res = deal(JSON,per)
         targetFilename = "samples_Num_" + str(total) + "_" + filename
-        tools.writeJSONList(res,targetLink,targetFilename,encoding)
+        # tools.writeJSONList(res,targetLink,targetFilename,encoding)
+        content = toCsv(res)
+        tools.writeCsv(content, targetLink, targetFilename, encoding)
         print("完成处理，输出到：" + targetFilename)
 
 if __name__ == "__main__":
