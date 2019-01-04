@@ -1,6 +1,14 @@
 ﻿
 import Tools as tools
 
+def linkByAuthor_url_token(jsonList):
+	authors = {}
+	for i in range(0,len(jsonList)):
+		# 没有剔除原有id的item，因为，这样可以偷懒，，
+		if jsonList[i]["url_token"] != "":
+			authors[jsonList[i]["url_token"]] = jsonList[i]
+	return authors
+
 def featuresToAuthor(author):
 	author = author["author"]
 	# author JSON格式
@@ -32,7 +40,7 @@ def main():
 
 	print("encoding:")
 	# encoding = utf-8
-	encoding = "UTF-8"
+	encoding = input()
 
 	print("link:")
 	# link = "D:\GoldbachResearchGroup\data-master\\12.31\answers"
@@ -51,7 +59,7 @@ def main():
 	print("遍历完成：" + link)
 
 
-	jsonList = tools.linkByAuthor_url_token(jsonList)
+	jsonList = linkByAuthor_url_token(jsonList)
 
 	print("开始写入：" + targetFilename + ".json")
 	tools.writeJSONList(jsonList,targetLink,targetFilename,encoding)
