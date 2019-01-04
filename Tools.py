@@ -62,11 +62,3 @@ def writeJSONList(jsonList,targetLink,targetFilename,encoding):
 	file = open(src,"w",encoding=encoding)
 	file.write(json.dumps(jsonList))
 	file.close()
-
-def linkByAuthor_url_token(jsonList):
-	authors = {}
-	for i in range(0,len(jsonList)):
-		# 没有剔除原有id的item，因为，这样可以偷懒，，
-		if jsonList[i]["url_token"] != "":
-			authors[jsonList[i]["url_token"]] = jsonList[i]
-	return authors
