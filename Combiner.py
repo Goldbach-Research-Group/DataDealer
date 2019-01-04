@@ -1,4 +1,6 @@
 ﻿import json
+import Tools as tools
+
 # 全局authors jsonList
 authors = {}
 
@@ -25,15 +27,6 @@ def readFile_JSON(link,filename,encoding):
 			# raise ValueError('assert')
 			# 监测正常
 
-def writeJSONList(jsonList,targetLink,targetFilename,encoding):
-	# 重复代码标记，不能忍，但懒得抽象了，这次就忍自己一次 by tenma
-	# 将author信息写入文件
-	src = targetLink + "\\" + targetFilename + ".json"
-	# print(src)
-	file = open(src,"w",encoding=encoding)
-	file.write(json.dumps(jsonList))
-	file.close()
-
 def main():
 	# 天气好冷，没暖气，不想封装了，，
 	encoding = "utf-8"
@@ -47,7 +40,7 @@ def main():
 		"authorsofAnswers_01_01_003",
 	]
 	
-	link = ".\\"
+	link = ".\\output"
 
 	# 命名规范 QuestionId_authorsCombination
 	targetFilename = "306537777_authorsCombination"
@@ -56,7 +49,7 @@ def main():
 		readFile_JSON(link,filesList[i],encoding)
 		print("authors len:" + str(len(authors)))
 
-	writeJSONList(authors,link,targetFilename,encoding)
+	tools.writeJSONList(authors,link,targetFilename,encoding)
 
 	print("处理完成")
 
