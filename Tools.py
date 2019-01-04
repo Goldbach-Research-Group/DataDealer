@@ -5,7 +5,7 @@ import os
 # def func(dataToFunc):
 #		return res
 
-def readFile_JSON(link,filename,encoding):
+def readFile_JSON(link, filename, encoding):
     # 假设内存足够大，不考虑内存泄漏
     # link 文件路径
     # filename 无后缀文件名
@@ -15,50 +15,52 @@ def readFile_JSON(link,filename,encoding):
     # 强制文件后缀过滤，注意文件保存格式，我有洁癖
     src = link + "\\" + filename + ".json"
     # print(src)
-    file = open(src,"r",encoding=encoding)
+    file = open(src, "r", encoding=encoding)
     fileData = file.read()
     return json.loads(fileData)
-	
 
-def foreachJSON(JSON,func):
+
+def foreachJSON(JSON, func):
     data = JSON["data"]
 
     res = []
-    for i in range(0,len(data)):
-	    # 特征提取工作
-	    # 可自主选择func(dataToFunc)函数传入，多态，还没掌握py的面向对象语法，凑合一下
-	    res.append(func(data[i]))
+    for i in range(0, len(data)):
+        # 特征提取工作
+        # 可自主选择func(dataToFunc)函数传入，多态，还没掌握py的面向对象语法，凑合一下
+        res.append(func(data[i]))
     return res
 
-def foreachFolder(link,encoding,func):   
+
+def foreachFolder(link, encoding, func):
     # 遍历某一文件夹的子文件
     # dict
     filesName = getFilesName(link)
     jsonList = []
-    for i in range(0,len(filesName)):
-        temp = readFile_JSON(link,filesName[i],encoding)
-        temp = foreachJSON(temp,func)
-        for k in range(0,len(temp)):
+    for i in range(0, len(filesName)):
+        temp = readFile_JSON(link, filesName[i], encoding)
+        temp = foreachJSON(temp, func)
+        for k in range(0, len(temp)):
             jsonList.append(temp[k])
     return jsonList
 
 
 def getFilesName(link):
-	filesName = os.listdir(link)
-	nameList = []
-	for i in range(0,len(filesName)):
-		# 文件夹过滤
-		if (os.path.isfile(link+"\\"+filesName[i])):
-			temp = filesName[i].split(".")
-			# 只获取[*.json]的文件名,过滤器
-			if (len(temp) == 2 and temp[1] == "json"):
-				nameList.append(temp[0])
-	return nameList
+    filesName = os.listdir(link)
+    nameList = []
+    for i in range(0, len(filesName)):
+        # 文件夹过滤
+        if (os.path.isfile(link + "\\" + filesName[i])):
+            temp = filesName[i].split(".")
+            # 只获取[*.json]的文件名,过滤器
+            if (len(temp) == 2 and temp[1] == "json"):
+                nameList.append(temp[0])
+    return nameList
 
-def writeJSONList(jsonList,targetLink,targetFilename,encoding):
-	# 将author信息写入文件
-	src = targetLink + "\\" + targetFilename + ".json"
-	# print(src)
-	file = open(src,"w",encoding=encoding)
-	file.write(json.dumps(jsonList))
-	file.close()
+
+def writeJSONList(jsonList, targetLink, targetFilename, encoding):
+    # 将author信息写入文件
+    src = targetLink + "\\" + targetFilename + ".json"
+    # print(src)
+    file = open(src, "w", encoding=encoding)
+    file.write(json.dumps(jsonList))
+    file.close()
